@@ -1,0 +1,124 @@
+server:
+  port: 8010
+  ssl:
+    enabled: false
+    key-store: classpath:api.ai-ai.fun.jks
+    key-store-password: ic6rsgnh
+    key-store-type: JKS
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  # redis配置
+  redis:
+    # Redis数据库索引
+    database: 3
+    # Redis服务器地址
+    host: 117.72.118.155
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码
+#    password: 123456
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 10000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+
+  application:
+    name: zjzYun
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://117.72.118.155:13306/zjzwx?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    #如果你的密码是纯数字，需要用""包起来，不是纯数字不用
+    password: q1w2e3r4@P4WD
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    auto-mapping-behavior: FULL
+  global-config:
+    banner: false #关闭mybatis-plus启动的LOGO
+
+
+
+
+
+
+############## Sa-Token 配置 (此处无需动任何东西) ##############
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: token
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: -1
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: false
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+  #一人只生成一token
+  maxTryTimes: -1
+  #彩色日记
+  isColorLog: true
+  #是否尝试从 请求体 里读取 Token
+  isReadBody: false
+  #是否尝试从 cookie 里读取 Token，此值为 false 后，StpUtil.login(id) 登录时也不会再往前端注入Cookie
+  isReadCookie: false
+  #是否在登录后将 Token 写入到响应头
+  isWriteHeader: false
+  #关闭Sa-Token启动的LOGO
+  is-print: off
+
+
+#系统配置
+webset:
+  #图片路径
+  directory: /www/wwwroot/zjzpic/pic
+  #图片存储服务器域名
+  picDomain: https://api.ai-ai.fun/
+  #鉴黄API地址
+  safetyDomain: http://127.0.0.1:3006/
+  #证件照APi地址
+  zjzDomain: http://127.0.0.1:8080/
+  #智能抠图API地址
+  mattingDomain: http://127.0.0.1:8080/
+  #黑白图片上色API地址
+  colourizeDomain: http://127.0.0.1/
+  #动漫风图片API地址
+  cartoonDomain: http://127.0.0.1/
+  #管理员登录二维码：正式版：release，体验版：trial，开发版：develop
+  envVersion: release
+
+
+#模型配置
+modelset:
+
+  #重要的事情说3遍！！！
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+  #两者不同搭配的效果和速度都不一样，如果你不知道这是干嘛的，请不要动
+
+  #人像分割模型 - 可选值：modnet_photographic_portrait_matting | hivision_modnet | rmbg-1.4 | birefnet-v1-lite
+  humanMattingModel: hivision_modnet
+  #人脸检测模型 - 可选值：mtcnn | retinaface-resnet50
+  faceDetectModel: mtcnn
+  #智能抠图模型 - 可选值：modnet_photographic_portrait_matting | hivision_modnet | rmbg-1.4 | birefnet-v1-lite
+  mattingModel: hivision_modnet
+  #智能抠图模型说明：
+  #birefnet-v1-lite的效果最好，也最慢，占用内存最大
+  #如果你自已部署了API但是服务器带不动，请更换官方的智能抠图API地址 或 更换智能抠图模型
